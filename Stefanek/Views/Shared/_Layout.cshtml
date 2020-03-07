@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="~/bootstrap/dist/css/bootstrap-reboot.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Stefanek</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    @RenderBody()
+</div>
+    <script src="~/jquery/dist/jquery.js"></script>
+    <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>
