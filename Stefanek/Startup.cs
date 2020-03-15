@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stefanek.Data;
+using Stefanek.Repositories.Abstraction;
+using Stefanek.Repositories.Implementation;
 
 namespace Stefanek
 {
@@ -23,6 +27,12 @@ namespace Stefanek
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+           
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ApplicationContext")));
+           
+            services.AddScoped<ICityRepository, CityRepostiory>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

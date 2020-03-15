@@ -1,4 +1,71 @@
-﻿
-<div>dsadsa</div>
+﻿@model ReservationForm
+
+    <div class="card reservation-form-card">
+        <img src="~/images/audiR8.png" class="card-img-top" alt="..."/>
+        <div class="card-body">
+            <form method="post" asp-action="CheckCarAvailability" asp-controller="Home">
+                <h2>Dane odbioru</h2>
+                <div class="form-group">
+                    <label for="ReceptionCityId">Miasto:</label>
+                    <select id="ReceptionCityId" asp-for="ReceptionCityId" class="form-control" asp-items="@ViewData["cities"] as SelectList">
+                        <option>Wybierz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ReceptionLocationId">Lokalizacja:</label>
+                    <select id="ReceptionLocationId" asp-for="ReceptionLocationId" name="ReceptionLocationId" class="form-control" asp-items="@(new SelectList(string.Empty, "LocationId", "Name"))">
+                        <option>Wybierz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ReceptionDate">Data:</label>
+                    <input asp-for="ReceptionDate" type="datetime-local" id="ReceptionDate" class="form-control" name="ReceptionDate">
+                </div>
+                <h2>Dane zwrotu</h2>
+                <div class="form-group">
+                    <label for="ReturnCityId">Miasto:</label>
+                    <select id="ReturnCityId" asp-for="ReturnCityId" class="form-control" asp-items="@ViewData["cities"] as SelectList">
+                        <option>Wybierz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ReturnLocationId">Lokalizacja:</label>
+                    <select id="ReturnLocationId" asp-for="ReturnLocationId" name="ReturnLocationId" class="form-control" asp-items="@(new SelectList(string.Empty, "LocationId", "Name"))">
+                        <option>Wybierz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ReturnDate">Data:</label>
+                    <input  asp-for="ReturnDate" type="datetime-local" id="ReturnDate" class="form-control" name="ReturnDate">
+                </div>
+                <button type="submit" class="btn btn-success">Sprawdź dostępność</button>
+            </form>
+        </div>
+    </div>
+
+<script src="~/jquery/dist/jquery.js"></script>
 
 
+<script type="text/javascript">
+    function getLocationByCity(selectorCityId, selectorLocationId) {
+        var cityId = $(selectorCityId).val();
+        var url = "/Home/GetLocationByCity";
+
+        $.getJSON(url, { cityId: cityId }, function(data) {
+            var item = "";
+            $(selectorLocationId).empty();
+            $.each(data, function (i, city) {
+                item += '<option value="' + city.value + '">' + city.text + '</option>'
+            });
+            $(selectorLocationId).html(item);
+        })
+    }
+
+    $("#ReturnCityId").change(function() {
+        getLocationByCity('#ReturnCityId', '#ReturnLocationId');
+    });
+
+    $("#ReceptionCityId").change(function () {
+        getLocationByCity('#ReceptionCityId', '#ReceptionLocationId');
+    });
+</script>
