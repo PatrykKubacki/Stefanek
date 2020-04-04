@@ -36,7 +36,13 @@
         </div>
     </footer>
     <script src="~/jquery/dist/jquery.js"></script>
+    <script src="~/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/moment.js/moment.js"></script>
     <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+    <script>
+        $('form').validate().settings.errorClass += ' is-invalid';
+        $('form').validate().settings.validClass += ' is-valid';
+</script>
 </body>
 </html>

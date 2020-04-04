@@ -15,5 +15,7 @@ namespace Stefanek.Data
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

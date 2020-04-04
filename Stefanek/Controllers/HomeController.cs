@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Stefanek.Helpers;
 using Stefanek.Models;
 using Stefanek.Repositories.Abstraction;
 using Stefanek.ViewModels;
@@ -14,11 +15,21 @@ namespace Stefanek.Controllers
     {
         readonly ILocationRepository _locationRepository;
         readonly ICityRepository _cityRepository;
+        readonly ICarRepository _carRepository;
+        readonly IReservationRepository _reservationRepository;
+        readonly ReservationHelper _reservationHelper;
 
-        public HomeController(ILocationRepository locationRepo, ICityRepository cityRepo)
+        public HomeController(ILocationRepository locationRepo,
+            ICityRepository cityRepo,
+            ICarRepository carRepo,
+            IReservationRepository reservationRepo,
+            ReservationHelper reservationHelper)
         {
             _locationRepository = locationRepo;
             _cityRepository = cityRepo;
+            _carRepository = carRepo;
+            _reservationRepository = reservationRepo;
+            _reservationHelper = reservationHelper;
         }
         public IActionResult Index()
         {
@@ -28,9 +39,20 @@ namespace Stefanek.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckCarAvailability(ReservationForm reservationFormform)
+        public IActionResult CheckCarAvailability(ReservationForm reservationForm)
         {
-            return null;
+            if (!ModelState.IsValid)
+                return View("Index", reservationForm);
+
+            var availableCars = _reservationHelper.GetAvailableCars(reservationForm);
+
+            return View("AvailableCars", availableCars);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmReservation(int id)
+        {
+            return View();
         }
 
         public JsonResult GetLocationByCity(int cityId)

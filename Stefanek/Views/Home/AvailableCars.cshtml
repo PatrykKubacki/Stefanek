@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Car>
+
+<h1>Dostępne aute</h1>
+<div>tu beda auta</div>
+
+<form asp-controller="Home" asp-action="ConfirmReservation" method="post">
+    @foreach (var car in Model)
+    {
+        <div class="card select-car-card">
+            <img src="~/images/car.png" class="card-img-top" alt="" />
+            <div class="card-body">
+                <h5 class="card-title">@($"{car.Brand} {car.Modele}")</h5>
+                <h6 class="card-title">@($"Rocznik: {car.Year}")</h6>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">Rodzaj paliwa:@($"{car.TypeOfFuel}")</td>
+                        </tr>
+                        <tr>
+                            <td>Pojemność silnika:@($"{car.EngineCapacity} cm")<sup>3</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Moc:@($"{car.EnginePower} KM")</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Zużycie paliwa cykl miejski:@($"{car.FuelUrbanConsumption}l/100km") </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Zużycie paliwa 90km/h:@($"{car.Fuel90KmPerHConsumption}l/100km") </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    @*<input type="hidden" name="carId"  value="@car.CarId"/>*@
+                    <span>Cena za dobę: @($"{car.PriceADay.ToString("C")}")</span>
+                    <button type="submit" asp-controller="Home" asp-action="ConfirmReservation" asp-route-id="@car.CarId" class="btn btn-primary select-car-button">Wybierz</button>
+                </div>
+            </div>
+        </div>
+    }
+</form>
