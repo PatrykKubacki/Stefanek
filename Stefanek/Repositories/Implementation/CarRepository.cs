@@ -24,10 +24,8 @@ namespace Stefanek.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Car GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Car GetById(int id) 
+            => _context.Cars.FirstOrDefault(car => car.CarId == id);
 
         public void Remove(Car item)
         {

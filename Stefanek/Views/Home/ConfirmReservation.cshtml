@@ -1,0 +1,78 @@
+﻿@model ConfirmReservation
+
+<h1>Podsumowanie rezerwacji</h1>
+
+<form asp-controller="Home" asp-action="AvailableCars" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card confirm-reservation-card">
+                <img src="~/images/car.png" class="card-img-top" alt=""/>
+                <div class="card-body">
+                    <h5 class="card-title">@($"{Model.Car.Brand} {Model.Car.Modele}")</h5>
+                    <h6 class="card-title">@($"Rocznik: {Model.Car.Year}")</h6>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">Rodzaj paliwa:@($"{Model.Car.TypeOfFuel}")</td>
+                        </tr>
+                        <tr>
+                            <td>Pojemność silnika:@($"{Model.Car.EngineCapacity} cm")<sup>3</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Moc:@($"{Model.Car.EnginePower} KM")</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Zużycie paliwa cykl miejski:@($"{Model.Car.FuelUrbanConsumption}l/100km") </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Zużycie paliwa 90km/h:@($"{Model.Car.Fuel90KmPerHConsumption}l/100km") </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <span>Cena za dobę: @($"{Model.Car.PriceADay.ToString("C")}")</span>
+                        <input type="hidden" value="@Model.ReservationForm.ReceptionDate" name="ReceptionDate" />
+                        <input type="hidden" value="@Model.ReservationForm.ReturnDate" name="ReturnDate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    <div class="col">
+        <div class="card confirm-reservation-card">
+            <div class="card-body">
+                <h5 class="card-title">Szczegóły rezerwacji</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Koszt całkowity:@($" {Model.TotalPrice.ToString("C")}") </h6>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td colspan="2">Miasto odbioru:@($" {Model.ReservationDetails.ReceptionCity}")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Lokalizacja odbioru:@($" {Model.ReservationDetails.ReceptionLocation}")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Data odbioru:@($" {Model.ReservationForm.ReceptionDate}")</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td colspan="2">Miasto zwrotu:@($" {Model.ReservationDetails.ReturnCity}")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Lokalizacja zwrotu:@($" {Model.ReservationDetails.ReturnLocation}")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Data zwrotu:@($" {Model.ReservationForm.ReturnDate}")</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <button type="submit" asp-action="ConfirmReservation" asp-controller="Home" asp-route-id="@Model.Car.CarId" class="btn btn-primary">Zatwierdź rezerwację</button>
+        </div>
+    </div>
+</form>

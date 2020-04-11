@@ -23,7 +23,8 @@ namespace Stefanek.Repositories.Implementation
 
         public void Add(Reservation item)
         {
-            throw new NotImplementedException();
+            _context.Reservations.Add(item);
+            _context.SaveChanges();
         }
 
         public Reservation GetById(int id)

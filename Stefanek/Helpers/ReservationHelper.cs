@@ -29,10 +29,21 @@ namespace Stefanek.Helpers
                             x.StartDate <= reservationStartDate && x.EndTime <= reservationEndDate)
                 .Select(x => x.CarId);
 
-            if (!reservationsIds.Any())
-                return _carRepository.Cars;
+            return !reservationsIds.Any()
+                ? _carRepository.Cars
+                : _carRepository.Cars.Where(x => !reservationsIds.Contains(x.CarId));
+        }
 
-            return _carRepository.Cars.Where(x => reservationsIds.Contains(x.CarId));
+        public void MakeReservation(int carId, DateTime startTime, DateTime endTime)
+        {
+            var reservation = new Reservation
+            {
+                CarId = carId,
+                StartDate = startTime,
+                EndTime = endTime,
+
+            };
+            _reservationRepository.Add(reservation);
         }
     }
 }

@@ -87,3 +87,8 @@ body {
 .select-car-button {
     float:right;
 }
+
+.confirm-reservation-card {
+    margin-right: 10px;
+    margin-bottom: 16px;
+}

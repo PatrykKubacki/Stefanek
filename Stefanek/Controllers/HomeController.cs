@@ -39,18 +39,69 @@ namespace Stefanek.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckCarAvailability(ReservationForm reservationForm)
+        public IActionResult Reservation(ReservationForm reservationForm)
         {
             if (!ModelState.IsValid)
                 return View("Index", reservationForm);
 
-            var availableCars = _reservationHelper.GetAvailableCars(reservationForm);
+            ViewData["availableCars"] = _reservationHelper.GetAvailableCars(reservationForm);
 
-            return View("AvailableCars", availableCars);
+            var model = new AvailableCarsForm
+            {
+                ReservationForm = reservationForm
+            };
+
+            return View("AvailableCars", model);
         }
 
         [HttpPost]
-        public IActionResult ConfirmReservation(int id)
+        public IActionResult AvailableCars(
+            int id,
+            string receptionDate,
+            string returnDate,
+            int receptionCityId,
+            int receptionLocationId,
+            int returnCityId,
+            int returnLocationId
+            )
+        {
+            var model = new ConfirmReservation
+            {
+                Car = _carRepository.GetById(id),
+                ReservationForm = new ReservationForm
+                {
+                    ReceptionDate = Convert.ToDateTime(receptionDate),
+                    ReturnDate = Convert.ToDateTime(returnDate),
+                    ReceptionCityId = receptionCityId,
+                    ReceptionLocationId = receptionLocationId,
+                    ReturnCityId = returnCityId,
+                    ReturnLocationId = returnLocationId
+                },
+                ReservationDetails = new ReservationDetails
+                {
+                    ReceptionCity = _cityRepository.GetById(receptionCityId).Name,
+                    ReceptionLocation = _locationRepository.GetById(receptionLocationId).Name,
+                    ReturnCity = _cityRepository.GetById(returnCityId).Name,
+                    ReturnLocation = _locationRepository.GetById(returnLocationId).Name,
+                }
+            };
+
+            return View("ConfirmReservation", model);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmReservation(
+            int id,
+            string receptionDate,
+            string returnDate)
+        {
+            var startDate = Convert.ToDateTime(receptionDate);
+            var endDate = Convert.ToDateTime(returnDate);
+            _reservationHelper.MakeReservation(id, startDate, endDate);
+            return View("SummaryReservation");
+        }
+
+        public IActionResult About()
         {
             return View();
         }

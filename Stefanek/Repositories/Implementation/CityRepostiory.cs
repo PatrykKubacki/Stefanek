@@ -24,10 +24,8 @@ namespace Stefanek.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public City GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public City GetById(int id) 
+            => _context.Cities.FirstOrDefault(city => city.CityId == id);
 
         public void Remove(City item)
         {

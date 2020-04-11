@@ -25,10 +25,8 @@ namespace Stefanek.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Location GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Location GetById(int id) 
+            => _context.Locations.FirstOrDefault(location => location.LocationId == id);
 
         public void Remove(Location item)
         {
